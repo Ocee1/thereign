@@ -1,0 +1,41 @@
+.wrap {
+  background: var(--navy);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+}
+
+/* dark shutter that step 3 slides/splits away to reveal the daytime shot */
+.shutter {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--navy-deep);
+  /* revealed by default (no-JS / pre-hydration); GSAP replays the wipe on scroll */
+  transform: translateY(-100%);
+  will-change: transform;
+}
+
+.bar {
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.line {
+  font-size: var(--fs-pinned);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-display);
+  text-transform: none;
+}
+
+@media (max-width: 640px) {
+  .bar {
+    bottom: 12vh;
+  }
+}

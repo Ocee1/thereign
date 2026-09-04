@@ -1,0 +1,44 @@
+.card {
+  position: fixed;
+  left: var(--gutter);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: var(--z-cookie);
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  padding: 0.75rem 0.75rem 0.75rem 1.1rem;
+  background: var(--white);
+  color: var(--ink);
+  border-radius: 0.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  max-width: min(88vw, 26rem);
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+.label strong {
+  font-weight: 700;
+}
+
+.accept {
+  align-self: center;
+  padding: 0.7rem 1.4rem;
+  background: var(--navy-deep);
+  color: var(--white);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  /* bottom-left corner cut at 45° — tag/ribbon notch */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0.7rem 100%, 0 calc(100% - 0.7rem));
+  transition: opacity 0.2s var(--ease);
+}
+.accept:hover {
+  opacity: 0.85;
+}

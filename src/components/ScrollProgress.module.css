@@ -1,0 +1,29 @@
+.track {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100vh;
+  height: 100svh;
+  z-index: var(--z-progress);
+  background: rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+.dot {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-top: -2.5px;
+  background: var(--white);
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .track {
+    display: none;
+  }
+}

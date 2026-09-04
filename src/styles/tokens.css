@@ -1,0 +1,40 @@
+/* In The Reign — design tokens (design-spec.md §2–3) */
+:root {
+  /* Color — strictly two-tone: navy/near-black + white */
+  --navy: #1d2949;          /* primary dark bg */
+  --navy-2: #293557;        /* nav bar / panels, upper range */
+  --navy-deep: #080b1f;     /* button fill, darkest overlay bars */
+  --white: #ffffff;
+  --ink: #0a0a0a;           /* off-black text in the light hero state */
+  --muted: rgba(255, 255, 255, 0.62); /* grey/muted white supporting copy */
+  --gold: #c9a876;          /* imagery reference only — not a UI color */
+
+  /* Typography */
+  --font-display: var(--font-sans), "Space Grotesk", "Archivo", system-ui, sans-serif;
+  --font-body: var(--font-sans), "Space Grotesk", "Archivo", system-ui, sans-serif;
+
+  --tracking-wordmark: 0.22em;
+  --tracking-label: 0.18em;
+  --tracking-display: -0.01em;
+
+  /* Type scale — clamp()ed for responsive (spec observed px at desktop) */
+  --fs-hero-wordmark: clamp(3.25rem, 9vw, 8.5rem);   /* ~120–140px */
+  --fs-mega: clamp(4rem, 12vw, 9.5rem);              /* "CLASS A" / big letter ~130–150px */
+  --fs-pinned: clamp(2rem, 4.6vw, 4rem);             /* pinned headline ~56–64px */
+  --fs-stat: clamp(2.75rem, 6.5vw, 5rem);            /* stat numerals ~64–80px */
+  --fs-body: clamp(0.8125rem, 1vw, 1rem);            /* ~14–16px */
+  --fs-label: clamp(0.6875rem, 0.85vw, 0.8125rem);   /* nav / labels ~12–13px */
+
+  --lh-body: 1.75;
+  --lh-display: 1.05;
+
+  /* Layout */
+  --nav-h: 4.5rem;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --z-progress: 40;
+  --z-cookie: 60;
+  --z-menu: 70;   /* full-screen nav overlay sits over the cookie card */
+  --z-nav: 80;    /* ...and the bar (with the close button) over the overlay */
+
+  --ease: cubic-bezier(0.4, 0, 0.1, 1);
+}

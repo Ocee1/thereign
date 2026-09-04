@@ -1,0 +1,164 @@
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-nav);
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--gutter);
+  color: var(--ink);
+  background: transparent;
+  transition: background 0.5s var(--ease), color 0.5s var(--ease);
+}
+
+/* Before the hero hand-off the bar is transparent: the left group sits on the
+   white hero panel (ink), the right group over the dark photo (white). */
+.nav:not([data-scrolled]):not([data-menu-open]) .links {
+  color: var(--white);
+}
+
+.nav[data-scrolled] {
+  color: var(--white);
+  background: var(--navy);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* while the menu overlay is open the bar sits on navy — force light chrome */
+.nav[data-menu-open] {
+  color: var(--white);
+  background: transparent;
+  box-shadow: none;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.6rem);
+}
+
+.menuBtn {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-left: -0.4rem;
+}
+
+/* single horizontal pill / rounded-rectangle "slider" icon — not a hamburger */
+.sliderIcon {
+  position: relative;
+  display: block;
+  width: 1.6rem;
+  height: 0.62rem;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+}
+.sliderIcon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.18rem;
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateY(-50%);
+  transition: left 0.3s var(--ease);
+}
+.menuBtn[aria-expanded="true"] .sliderIcon::after {
+  left: calc(100% - 0.52rem);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-wordmark);
+  text-transform: uppercase;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.4rem);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+.wordmark[data-visible] {
+  opacity: 1;
+  transform: none;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.75rem);
+}
+
+.link,
+.wishlist {
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.wishlist {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.menuBtn:focus-visible,
+.link:focus-visible,
+.wishlist:focus-visible,
+.menuLink:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* full-screen menu overlay */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu);
+  background: var(--navy);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s var(--ease), visibility 0.4s var(--ease);
+}
+.menu[data-open] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menuInner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 4vw, 2rem);
+  padding: calc(var(--nav-h) + 2rem) var(--gutter) var(--gutter);
+  min-height: 100%;
+  justify-content: center;
+}
+
+.menuLink {
+  font-family: var(--font-display);
+  font-size: var(--fs-pinned);
+  font-weight: 300;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  color: var(--white);
+  transition: opacity 0.2s var(--ease);
+}
+.menuLink:hover {
+  opacity: 0.6;
+}
+
+@media (max-width: 640px) {
+  .links {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu {
+    transition: none;
+  }
+}

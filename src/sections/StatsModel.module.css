@@ -1,0 +1,85 @@
+.wrap {
+  background: var(--navy);
+}
+
+.pinInner {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 65% 35%;
+  align-items: center;
+}
+
+.model {
+  position: relative;
+  align-self: stretch;
+}
+
+.stats {
+  position: relative;
+  padding: var(--nav-h) var(--gutter);
+  min-height: 12rem;
+}
+
+/* stacked for the crossfade cycle on desktop; JS switches to relative on mobile */
+.stat {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: var(--white);
+  will-change: opacity, transform;
+}
+
+.tick {
+  width: 3rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+}
+.label {
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.value {
+  font-family: var(--font-display);
+  font-size: var(--fs-stat);
+  font-weight: 300;
+  line-height: 1;
+}
+.thumb {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(1.5rem, 5vh, 3rem);
+  width: clamp(6rem, 12vw, 9rem);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 859px) {
+  .pinInner {
+    grid-template-columns: 1fr;
+  }
+  .model {
+    min-height: 55vh;
+  }
+  .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+  }
+  .stat {
+    position: relative;
+    left: 0;
+    right: 0;
+  }
+  .thumb {
+    display: none;
+  }
+}

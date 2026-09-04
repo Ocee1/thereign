@@ -1,0 +1,41 @@
+.ph {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-align: center;
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.ph[data-tone="dusk"] {
+  background: linear-gradient(160deg, #24314f 0%, #1a2440 45%, #0d1430 100%);
+}
+.ph[data-tone="day"] {
+  background: linear-gradient(160deg, #5b6f97 0%, #93a7c4 55%, #cfd9e6 100%);
+  color: rgba(10, 10, 10, 0.5);
+}
+.ph[data-tone="night"] {
+  background: radial-gradient(120% 90% at 50% 0%, #2a3a5f 0%, #141d38 50%, #080c1d 100%);
+}
+.ph[data-tone="study"] {
+  background: linear-gradient(160deg, #8a90a0 0%, #6c7182 50%, #4c505e 100%);
+  color: rgba(10, 10, 10, 0.55);
+}
+
+.slot {
+  font-weight: 700;
+  color: currentColor;
+}
+.label {
+  max-width: 22rem;
+  opacity: 0.8;
+}

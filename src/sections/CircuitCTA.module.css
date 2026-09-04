@@ -1,0 +1,186 @@
+/* section.md — circuit-trace CTA.
+   Light inversion of the page: white ground, navy circuitry and type. Still
+   strictly two-tone (spec §3 of design-spec.md), just the other way up. */
+.wrap {
+  --trace-strong: rgba(29, 41, 73, 0.42);
+  --trace-faint: rgba(29, 41, 73, 0.11);
+  --pulse: rgba(29, 41, 73, 0.95);
+
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: clamp(34rem, 84vh, 50rem);
+  display: flex;
+  background: var(--white);
+  color: var(--navy);
+  overflow: hidden;
+}
+
+/* ---- diagram layer ---------------------------------------------------- */
+
+.diagram {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* the section is sandwiched between a photo and the navy footer — feather
+     both edges so the off-canvas cropping reads as intentional (spec §2) */
+  mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 86%, transparent 100%);
+}
+
+/* Keep the aspect ratio and let the board overflow sideways rather than
+   squeezing it: traces run off-canvas left and right at every width, which is
+   the intent, and corner radii never distort (spec §9). */
+.svg {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: auto;
+  min-width: 100%;
+}
+
+.shadow {
+  fill: none;
+  stroke: var(--trace-faint);
+  stroke-width: 1.5;
+}
+.main {
+  fill: none;
+  stroke: var(--trace-strong);
+  stroke-width: 1.25;
+}
+
+.node {
+  fill: var(--white);
+  stroke: var(--trace-strong);
+  stroke-width: 1.25;
+}
+
+.nodeLabel {
+  fill: var(--navy);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+/* ---- travelling pulse -------------------------------------------------- */
+
+/* Dash geometry is written by JS once each route is measured (see the
+   component). Until then the pulse is simply unlit — same as the
+   reduced-motion state — rather than flashing as a solid line. */
+.pulse {
+  fill: none;
+  stroke-dasharray: 0 99999;
+  stroke-linecap: round;
+  animation: travel var(--dur) linear infinite;
+  animation-delay: var(--delay);
+  will-change: stroke-dashoffset;
+}
+
+@keyframes travel {
+  from {
+    stroke-dashoffset: var(--from, 0);
+  }
+  to {
+    stroke-dashoffset: var(--to, 0);
+  }
+}
+
+/* ---- foreground ------------------------------------------------------- */
+
+.content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gutter);
+  padding: clamp(3.5rem, 10vh, 7rem) var(--gutter);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--navy);
+}
+.dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: clamp(1.75rem, 4vh, 2.75rem);
+  text-align: right;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5.2vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.9rem;
+  background: var(--navy);
+  color: var(--white);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0.8rem 100%, 0 calc(100% - 0.8rem));
+  transition: background 0.25s var(--ease);
+}
+.cta:hover {
+  background: var(--navy-deep);
+}
+
+/* ---- responsive ------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(2.5rem, 8vh, 4rem);
+  }
+  .block {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 767px) {
+  /* dense patterns compress badly — thin the board out (spec §7) */
+  .trace[data-dense] {
+    display: none;
+  }
+  .nodeLabel {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+    opacity: 0;
+  }
+}

@@ -1,0 +1,29 @@
+.wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--navy-deep);
+}
+
+.cell {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+/* oversized so the parallax shift never exposes an edge */
+.inner {
+  position: absolute;
+  inset: -16% 0;
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    grid-template-columns: 1fr;
+  }
+  .cell {
+    min-height: 70vh;
+  }
+}

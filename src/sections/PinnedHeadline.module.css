@@ -1,0 +1,33 @@
+.wrap {
+  background: var(--navy);
+}
+
+.pin {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--nav-h) var(--gutter);
+}
+
+.headline {
+  max-width: 22ch;
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-pinned);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-display);
+  color: var(--white);
+}
+
+@media (max-width: 640px) {
+  .pin {
+    justify-content: flex-start;
+  }
+  .headline {
+    text-align: left;
+  }
+}
