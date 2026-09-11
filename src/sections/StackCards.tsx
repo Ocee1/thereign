@@ -21,8 +21,11 @@ import styles from "./StackCards.module.css";
  * index of six services on the right. One item is active (hover / tap / focus);
  * its description opens beneath it and its number ghosts large under the intro.
  * On first view the active item auto-advances once through all six, then stops —
- * any interaction cancels it. Below 900px, and for reduced motion, every
- * description is shown and the auto-advance never runs.
+ * any interaction cancels it. Below 900px the cards drop the pin/scale/scroll
+ * choreography and the ghost number, but the index stays a one-open accordion
+ * (tap to switch) rather than unfolding all six at once — the auto-advance
+ * doesn't run there (or under reduced motion), so it opens on the first item
+ * and waits for a tap.
  *
  * Card D is the photo close: four lines brighten in sequence, a gold trace
  * draws, a trust row and the caption land last. It does not pin or scrub — it
@@ -373,6 +376,7 @@ function ServiceCard({ section, cardClass }: { section: Section; cardClass: stri
                       <Icon name={item.icon} />
                     </span>
                     <span className={styles.itemLabel}>{item.label}</span>
+                    <span className={styles.chev} aria-hidden="true" />
                   </button>
                   <div
                     id={`${cardClass}-d${i}`}

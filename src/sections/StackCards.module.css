@@ -204,6 +204,12 @@
   font-weight: 500;
 }
 
+/* mobile-only accordion chevron — desktop reveals via hover, so this is
+   unused (and unrendered) there; see the max-width: 899px block below */
+.chev {
+  display: none;
+}
+
 .item[data-on] .itemBtn {
   color: var(--cream);
 }
@@ -351,15 +357,23 @@
 /* ---- below 900px: normal flow, no stacking, every description shown ---- */
 
 @media (max-width: 899px) {
+  /* A different shape for mobile, not desktop's cards stretched to fit: no
+     forced full-screen height (that just stacked dead space on top of an
+     already-tall list), a visible gap between cards instead of them butting
+     edge to edge, and the six services become a tap accordion — same
+     one-open-at-a-time model desktop gets from hover — instead of unfolding
+     every description at once into one long scroll. */
   .card {
     position: relative;
     height: auto;
-    min-height: 100svh;
+  }
+  .card + .card {
+    margin-top: clamp(1rem, 4vw, 1.5rem);
   }
   .frame {
     height: auto;
-    min-height: 100svh;
-    padding-top: calc(var(--nav-h) + clamp(1.5rem, 5vh, 3rem));
+    padding: calc(var(--nav-h) + clamp(1.5rem, 5vh, 2.5rem)) clamp(1.5rem, 6vw, 2rem)
+      clamp(2.25rem, 7vh, 3rem);
   }
   .svc {
     grid-template-columns: 1fr;
@@ -370,13 +384,29 @@
   }
   .index {
     align-self: start;
-    margin-top: clamp(1.75rem, 5vh, 2.5rem);
+    margin-top: clamp(1.5rem, 5vh, 2rem);
   }
-  /* no hover to open them, so every description is shown */
-  .desc {
-    grid-template-rows: 1fr;
+  .itemBtn {
+    position: relative;
+    padding-right: 1.75rem;
+  }
+  /* chevron affordance — the tap target it's on isn't obvious without one */
+  .chev {
+    display: block;
+    position: absolute;
+    right: 0.15rem;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    opacity: 0.55;
+    transform: translateY(-70%) rotate(45deg);
+    transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+  }
+  .item[data-on] .chev {
     opacity: 1;
-    padding-bottom: clamp(0.7rem, 1.7vh, 1.15rem);
+    transform: translateY(-30%) rotate(-135deg);
   }
   .item[data-on] .itemIcon {
     transform: none;
