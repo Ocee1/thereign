@@ -1,0 +1,412 @@
+/* ---- the stacking shell ---- */
+
+.stack {
+  --stack-gap: clamp(0.75rem, 2.2vh, 1.75rem);
+  position: relative;
+  /* the ground that shows in the gaps around a receded card — carried over
+     from WhoWeAre (the section directly above) so the stack reads as cards
+     laid on that same surface */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 40%),
+    var(--cream);
+  /* side margins for every card. no overflow:hidden here: it would kill the
+     sticky children. */
+  padding-inline: var(--stack-gap);
+}
+
+/* The stack ground is cream, the section below is navy. Rather than hand that
+   switch to a blank gradient band after the last card, fade the ground itself
+   to navy across the height of the final (dark) card — the change happens in
+   the thin side gutters while card D is on screen, so by the time it releases
+   the surround is already navy. Anchored to the stack's bottom so the fade
+   lands in the right place regardless of the stack's total height. Sits behind
+   every card (z-index 0 < the cards' 1–4); the opaque cards mask it, it only
+   shows in the gutters and the gaps around a receded card. */
+.stack::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 165vh;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--cream-rgb), 0) 0%,
+    var(--cream) 10%,
+    var(--cream) 42%,
+    var(--dark) 82%,
+    var(--dark) 100%
+  );
+}
+
+/* Every card sticks to the same offset. Because they are siblings of .stack, a
+   card stays stuck for the whole run instead of releasing at the end of its own
+   box, so the next card covers it rather than scrolling past it. As the next
+   card rises, this one is scaled toward its centre (GSAP) so it recedes into
+   the distance rather than just being slid over. */
+.card {
+  position: sticky;
+  /* sit clear of the fixed nav so the rounded top always reads */
+  top: calc(var(--nav-h) + var(--stack-gap));
+  border-radius: clamp(1.25rem, 3vw, 2.5rem);
+  overflow: hidden; /* clips the card's own content to the rounded corners */
+  color: var(--cream);
+  /* the covering card casts onto the card it is sliding over, and the receded
+     card floats on the cream ground */
+  box-shadow: 0 -12px 34px -12px rgba(var(--dark-rgb), 0.5),
+    0 26px 60px -24px rgba(var(--dark-rgb), 0.3);
+  transform-origin: 50% 50%;
+  will-change: transform;
+  /* the card is taller than the viewport; the surplus is scroll budget, which
+     sets how long this card stays visible before it is covered */
+  height: 170vh;
+}
+
+/* only a viewport-ish slice is ever on screen; the -nav -2*gap keeps the card
+   clear of the window top and bottom so its corners always read */
+.frame {
+  position: relative;
+  height: calc(100svh - var(--nav-h) - 2 * var(--stack-gap));
+  padding: clamp(1.75rem, 5vh, 3.25rem) clamp(1.75rem, 4vw, 3.5rem) clamp(1.75rem, 5vh, 3.5rem);
+}
+
+/* jewel tones — each card a distinct saturated ground so the stack reads as it
+   recedes; text stays cream, accents stay gold on all of them */
+.cardA {
+  z-index: 1;
+  background: #2233c4; /* royal blue */
+}
+.cardB {
+  z-index: 2;
+  background: #0c6b53; /* emerald */
+}
+.cardC {
+  z-index: 3;
+  background: #4a2a7a; /* aubergine */
+}
+/* the last card doesn't pin or scrub — it scrolls like any section and plays
+   its reveal once on the way in. No surplus height, no trailing spacer, so
+   there's no dead scroll between it and the section below. */
+.cardD {
+  z-index: 4;
+  position: relative;
+  height: auto;
+  background: #171205; /* warm near-black under the photo */
+}
+
+/* ---- shared type ---- */
+
+.eyebrow {
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: clamp(0.9rem, 2.4vh, 1.5rem);
+}
+
+.heading {
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.6vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-wrap: balance;
+  max-width: 13ch;
+}
+
+/* ---- cards A–C: the service directory ---- */
+
+.svc {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  column-gap: clamp(2rem, 5vw, 5rem);
+  height: 100%;
+}
+
+.lead {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.intro {
+  margin-top: clamp(0.9rem, 2.4vh, 1.5rem);
+  max-width: 34ch;
+  color: rgba(var(--cream-rgb), 0.66);
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  line-height: 1.6;
+}
+
+/* the active item's number, ghosted large at the foot of the lead column */
+.ghost {
+  margin-top: auto;
+  padding-top: clamp(1.5rem, 4vh, 3rem);
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: clamp(6rem, 15vw, 13rem);
+  line-height: 0.72;
+  letter-spacing: -0.02em;
+  color: rgba(var(--cream-rgb), 0.12);
+  font-variant-numeric: tabular-nums;
+}
+
+.index {
+  align-self: center;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+
+.item {
+  border-bottom: 1px solid var(--line);
+}
+
+.itemBtn {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.6rem);
+  width: 100%;
+  padding: clamp(0.6rem, 1.7vh, 1.05rem) 0;
+  text-align: left;
+  color: rgba(var(--cream-rgb), 0.68);
+  transition: color 0.25s var(--ease);
+}
+.itemBtn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.num {
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(var(--cream-rgb), 0.4);
+  transition: color 0.25s var(--ease);
+}
+
+.itemIcon {
+  display: block;
+  opacity: 0.55;
+  transition: opacity 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.itemIcon svg {
+  display: block;
+  width: clamp(20px, 2vw, 24px);
+  height: auto;
+}
+
+.itemLabel {
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-weight: 500;
+}
+
+.item[data-on] .itemBtn {
+  color: var(--cream);
+}
+.item[data-on] .num {
+  color: var(--gold);
+}
+.item[data-on] .itemIcon {
+  opacity: 1;
+  color: var(--gold);
+  transform: scale(1.08);
+}
+
+/* grid-template-rows animates cleanly where max-height guesses a wrong bound */
+.desc {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.42s var(--ease), opacity 0.3s var(--ease);
+  color: rgba(var(--cream-rgb), 0.74);
+  font-size: clamp(0.88rem, 1vw, 1rem);
+  line-height: 1.6;
+}
+.desc > p {
+  overflow: hidden;
+  /* line the copy up under the label, past the number + icon columns */
+  padding-left: calc(
+    var(--fs-label) + clamp(20px, 2vw, 24px) + 2 * clamp(0.9rem, 2vw, 1.6rem)
+  );
+  padding-right: clamp(0.5rem, 3vw, 3rem);
+}
+.desc[data-on] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  padding-bottom: clamp(0.7rem, 1.7vh, 1.15rem);
+}
+
+/* ---- card D: photo + scrubbed lines ---- */
+
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.bg :global(img) {
+  filter: saturate(0.5) sepia(0.35) contrast(1.05) brightness(0.5);
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    rgba(23, 18, 5, 0.93) 0%,
+    rgba(23, 18, 5, 0.62) 45%,
+    rgba(var(--gold-rgb), 0.16) 100%
+  );
+}
+
+.trace {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  opacity: 0.6;
+}
+.trace path {
+  /* pathLength="1" on the markup, so 1 unit is the whole path */
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.cardDInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(2rem, 7vh, 4.5rem);
+  height: 100%;
+}
+
+.reveal {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-condensed);
+  font-weight: 600;
+  font-stretch: 100%;
+  font-size: clamp(1.8rem, 5vw, 4.6rem);
+  line-height: 1.06;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.line {
+  opacity: 0.22;
+}
+.line:nth-child(2),
+.line:nth-child(4) {
+  color: var(--gold);
+}
+
+.cardDFoot {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3.5vh, 2.25rem);
+}
+
+.trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.8rem, 2.5vw, 2.25rem);
+  list-style: none;
+  padding-top: clamp(1rem, 3vh, 1.75rem);
+  border-top: 1px solid var(--line);
+}
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(var(--cream-rgb), 0.82);
+}
+.trustItem svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--gold);
+}
+
+.caption {
+  align-self: flex-end;
+  max-width: 34rem;
+  color: var(--cream);
+  font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+  line-height: 1.7;
+  text-align: right;
+  text-wrap: pretty;
+}
+
+/* ---- below 900px: normal flow, no stacking, every description shown ---- */
+
+@media (max-width: 899px) {
+  .card {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+  }
+  .frame {
+    height: auto;
+    min-height: 100svh;
+    padding-top: calc(var(--nav-h) + clamp(1.5rem, 5vh, 3rem));
+  }
+  .svc {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .ghost {
+    display: none;
+  }
+  .index {
+    align-self: start;
+    margin-top: clamp(1.75rem, 5vh, 2.5rem);
+  }
+  /* no hover to open them, so every description is shown */
+  .desc {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    padding-bottom: clamp(0.7rem, 1.7vh, 1.15rem);
+  }
+  .item[data-on] .itemIcon {
+    transform: none;
+  }
+  .caption {
+    align-self: flex-start;
+    text-align: left;
+  }
+  .line {
+    opacity: 1;
+  }
+  .trace path {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desc,
+  .itemIcon,
+  .itemBtn,
+  .num {
+    transition: none;
+  }
+  .item[data-on] .itemIcon {
+    transform: none;
+  }
+  .line {
+    opacity: 1;
+  }
+  .trace path {
+    stroke-dashoffset: 0;
+  }
+}

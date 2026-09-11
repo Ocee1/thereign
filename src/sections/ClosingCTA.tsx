@@ -75,7 +75,7 @@ export default function ClosingCTA() {
 
       <div className={`overlayBar ${styles.bar}`} data-translucent>
         <p className={styles.line}>Let&rsquo;s keep your operations running.</p>
-        <a className="notchBtn" href="mailto:hello@inthereign.com">
+        <a className="notchBtn" href="mailto:info@inthereign.com" data-contact>
           Book a consultation
         </a>
       </div>

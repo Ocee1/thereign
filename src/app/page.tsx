@@ -1,31 +1,24 @@
 import HeroSequence from "@/sections/HeroSequence";
-import PinnedHeadline from "@/sections/PinnedHeadline";
-import Pillars from "@/sections/Pillars";
-import Gallery from "@/sections/Gallery";
-import StatsModel from "@/sections/StatsModel";
-import ClosingCTA from "@/sections/ClosingCTA";
+import WhoWeAre from "@/sections/WhoWeAre";
+import StackCards from "@/sections/StackCards";
+import Sectors from "@/sections/Sectors";
 import CircuitCTA from "@/sections/CircuitCTA";
-import styles from "./page.module.css";
+import Footer from "@/components/Footer";
 
 /**
- * Homepage. Sections 5.1–5.8 follow design-spec.md; CircuitCTA follows
- * section.md and sits in normal flow directly before the footer.
+ * Homepage. Hero → who we are → what we run (#services) → who we serve
+ * (#sectors) → contact (#contact) → footer. The pinned statement from the
+ * spec's §5.4 is folded into WhoWeAre's intro.
  */
 export default function Home() {
   return (
     <main>
       <HeroSequence />
-      <PinnedHeadline />
-      <Pillars />
-      <Gallery />
-      <StatsModel />
-      <ClosingCTA />
+      <WhoWeAre />
+      <StackCards />
+      <Sectors />
       <CircuitCTA />
-
-      <footer className={styles.footer}>
-        <span>In The Reign Limited</span>
-        <span>Facility management · Procurement · Project operations · Nigeria</span>
-      </footer>
+      <Footer />
     </main>
   );
 }

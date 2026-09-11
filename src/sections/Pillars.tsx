@@ -60,25 +60,25 @@ export default function Pillars() {
           <polygon
             points="100,12 180,60 180,140 100,188 20,140 20,60"
             fill="none"
-            stroke="rgba(255,255,255,0.35)"
+            stroke="rgba(var(--dark-rgb), 0.45)"
             strokeWidth="1"
           />
           <polygon
             points="100,12 180,60 100,100 20,60"
-            fill="rgba(255,255,255,0.06)"
-            stroke="rgba(255,255,255,0.25)"
+            fill="rgba(var(--gold-rgb), 0.35)"
+            stroke="rgba(var(--dark-rgb), 0.35)"
             strokeWidth="1"
           />
           <polygon
             points="20,60 100,100 100,188 20,140"
-            fill="rgba(255,255,255,0.03)"
-            stroke="rgba(255,255,255,0.2)"
+            fill="rgba(var(--dark-rgb), 0.06)"
+            stroke="rgba(var(--dark-rgb), 0.28)"
             strokeWidth="1"
           />
           <polygon
             points="180,60 180,140 100,188 100,100"
-            fill="rgba(255,255,255,0.09)"
-            stroke="rgba(255,255,255,0.25)"
+            fill="rgba(var(--gold-rgb), 0.7)"
+            stroke="rgba(var(--dark-rgb), 0.35)"
             strokeWidth="1"
           />
         </svg>

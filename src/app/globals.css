@@ -24,8 +24,8 @@ body {
 
 body {
   min-height: 100%;
-  background: var(--navy);
-  color: var(--white);
+  background: var(--dark);
+  color: var(--cream);
   font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
@@ -92,7 +92,7 @@ html.lenis body {
   padding: 0.7rem 1.2rem;
   overflow: visible;
   clip: auto;
-  background: var(--white);
+  background: var(--cream);
   color: var(--ink);
   font-size: var(--fs-label);
   letter-spacing: var(--tracking-label);
@@ -125,6 +125,11 @@ html.lenis body {
   overflow: hidden;
 }
 
+/* in-page anchors (nav + footer) land clear of the fixed nav */
+section[id] {
+  scroll-margin-top: var(--nav-h);
+}
+
 /* dark navy caption bar that slides in at the bottom-left (spec §5.3, 5.8) */
 .overlayBar {
   position: absolute;
@@ -132,8 +137,8 @@ html.lenis body {
   bottom: clamp(2.5rem, 8vh, 6rem);
   max-width: min(90vw, 34rem);
   padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1.5rem, 4vw, 3rem);
-  background: var(--navy-deep);
-  color: var(--white);
+  background: var(--dark-deep);
+  color: var(--cream);
   font-size: var(--fs-body);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -145,7 +150,7 @@ html[data-cookie] .overlayBar {
 }
 
 .overlayBar[data-translucent] {
-  background: rgba(8, 11, 31, 0.72);
+  background: rgba(var(--dark-rgb), 0.72);
   backdrop-filter: blur(2px);
 }
 
@@ -159,10 +164,10 @@ html[data-cookie] .overlayBar {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(to top, rgba(8, 11, 31, 0.8) 0%, rgba(8, 11, 31, 0.28) 34%, rgba(8, 11, 31, 0) 64%),
-    linear-gradient(to left, rgba(8, 11, 31, 0.52) 0%, rgba(8, 11, 31, 0) 55%),
-    linear-gradient(to bottom, rgba(8, 11, 31, 0.55) 0%, rgba(8, 11, 31, 0) 20%),
-    rgba(29, 41, 73, 0.24);
+    linear-gradient(to top, rgba(var(--dark-rgb), 0.8) 0%, rgba(var(--dark-rgb), 0.28) 34%, rgba(var(--dark-rgb), 0) 64%),
+    linear-gradient(to left, rgba(var(--dark-rgb), 0.52) 0%, rgba(var(--dark-rgb), 0) 55%),
+    linear-gradient(to bottom, rgba(var(--dark-rgb), 0.55) 0%, rgba(var(--dark-rgb), 0) 20%),
+    rgba(var(--dark-rgb), 0.24);
 }
 
 /* small circular slide/section index marker (spec §5.3) */
@@ -172,18 +177,19 @@ html[data-cookie] .overlayBar {
   place-items: center;
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(var(--gold-rgb), 0.65);
   border-radius: 50%;
   font-size: var(--fs-label);
-  color: var(--white);
+  color: var(--gold);
 }
 
 /* button / tag with a 45° cut on the bottom-left corner (spec §4, 5.8) */
 .notchBtn {
   display: inline-block;
   padding: 0.9rem 1.9rem;
-  background: var(--navy-deep);
-  color: var(--white);
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 500;
   font-size: var(--fs-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -191,5 +197,5 @@ html[data-cookie] .overlayBar {
   transition: opacity 0.2s var(--ease);
 }
 .notchBtn:hover {
-  opacity: 0.85;
+  background: var(--cream);
 }

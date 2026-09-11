@@ -12,6 +12,9 @@ export const BRAND_ASSETS: Record<string, boolean> = {
   "brand/gallery-1.jpg": false,
   "brand/gallery-2.jpg": false,
   "brand/model.png": false,
+  "brand/sector-oil-gas.jpg": true,
+  "brand/sector-corporate.jpg": true,
+  "brand/sector-real-estate.jpg": true,
 };
 
 export const hasAsset = (slot: string) => BRAND_ASSETS[slot] === true;

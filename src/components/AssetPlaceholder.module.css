@@ -10,25 +10,25 @@
   gap: 0.4rem;
   text-align: center;
   padding: 1rem;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(var(--cream-rgb), 0.55);
   font-size: var(--fs-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
 }
 
 .ph[data-tone="dusk"] {
-  background: linear-gradient(160deg, #24314f 0%, #1a2440 45%, #0d1430 100%);
+  background: linear-gradient(160deg, #1c2f47 0%, #122034 45%, #0b1626 100%);
 }
 .ph[data-tone="day"] {
-  background: linear-gradient(160deg, #5b6f97 0%, #93a7c4 55%, #cfd9e6 100%);
-  color: rgba(10, 10, 10, 0.5);
+  background: linear-gradient(160deg, #b99a63 0%, #ddc9a4 55%, #f5efe4 100%);
+  color: rgba(var(--dark-rgb), 0.55);
 }
 .ph[data-tone="night"] {
-  background: radial-gradient(120% 90% at 50% 0%, #2a3a5f 0%, #141d38 50%, #080c1d 100%);
+  background: radial-gradient(120% 90% at 50% 0%, #23374f 0%, #101d2f 50%, #060e18 100%);
 }
 .ph[data-tone="study"] {
-  background: linear-gradient(160deg, #8a90a0 0%, #6c7182 50%, #4c505e 100%);
-  color: rgba(10, 10, 10, 0.55);
+  background: linear-gradient(160deg, #9a9384 0%, #77726a 50%, #4e4d49 100%);
+  color: rgba(var(--dark-rgb), 0.55);
 }
 
 .slot {

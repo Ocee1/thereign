@@ -7,83 +7,117 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--gutter);
-  color: var(--ink);
+  color: var(--cream);
   background: transparent;
   transition: background 0.5s var(--ease), color 0.5s var(--ease);
 }
 
-/* Before the hero hand-off the bar is transparent: the left group sits on the
-   white hero panel (ink), the right group over the dark photo (white). */
-.nav:not([data-scrolled]):not([data-menu-open]) .links {
-  color: var(--white);
-}
-
 .nav[data-scrolled] {
-  color: var(--white);
-  background: var(--navy);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: var(--cream);
+  background: var(--dark);
+  box-shadow: 0 1px 0 rgba(var(--gold-rgb), 0.18);
 }
 
 /* while the menu overlay is open the bar sits on navy — force light chrome */
 .nav[data-menu-open] {
-  color: var(--white);
+  color: var(--cream);
   background: transparent;
   box-shadow: none;
 }
 
-.left {
+/* Wordmark, hairline, descriptor — read as one object, so the gaps either
+   side of the rule match and the rule is taller than the type it divides. */
+.lockup {
   display: flex;
   align-items: center;
-  gap: clamp(0.9rem, 2vw, 1.6rem);
+  gap: clamp(0.75rem, 1.6vw, 1.15rem);
+  min-width: 0;
 }
 
+/* the ITR building monogram — green + gold read on any ground; sized off the
+   bar height so it holds its proportion as --nav-h flexes */
+.mark {
+  height: clamp(2.6rem, 6vh, 3.4rem);
+  width: auto;
+  flex: none;
+}
+
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+/* the overlay menu is a mobile affordance only — on desktop the primary links
+   in the bar cover the same ground, so the button would just be clutter */
 .menuBtn {
-  display: grid;
+  appearance: none;
+  display: none;
   place-items: center;
   width: 2.25rem;
   height: 2.25rem;
-  margin-left: -0.4rem;
+  margin-right: -0.4rem;
 }
 
-/* single horizontal pill / rounded-rectangle "slider" icon — not a hamburger */
-.sliderIcon {
-  position: relative;
+/* two clean rules that fold into an X when the menu opens */
+.menuIcon,
+.menuIcon::before,
+.menuIcon::after {
   display: block;
   width: 1.6rem;
-  height: 0.62rem;
-  border: 1.5px solid currentColor;
-  border-radius: 999px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.3s var(--ease), background 0.15s var(--ease);
 }
-.sliderIcon::after {
+.menuIcon {
+  position: relative;
+}
+.menuIcon::before,
+.menuIcon::after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 0.18rem;
-  width: 0.34rem;
-  height: 0.34rem;
-  border-radius: 50%;
-  background: currentColor;
-  transform: translateY(-50%);
-  transition: left 0.3s var(--ease);
+  left: 0;
 }
-.menuBtn[aria-expanded="true"] .sliderIcon::after {
-  left: calc(100% - 0.52rem);
+.menuIcon::before {
+  top: -0.32rem;
+}
+.menuIcon::after {
+  top: 0.32rem;
+}
+.menuBtn[aria-expanded="true"] .menuIcon {
+  background: transparent;
+}
+.menuBtn[aria-expanded="true"] .menuIcon::before {
+  transform: translateY(0.32rem) rotate(45deg);
+}
+.menuBtn[aria-expanded="true"] .menuIcon::after {
+  transform: translateY(-0.32rem) rotate(-45deg);
 }
 
+/* two-line logotype: "In The Reign" over a tracked-out "Limited" */
 .wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.24rem;
   font-family: var(--font-display);
   font-size: var(--fs-label);
   letter-spacing: var(--tracking-wordmark);
+  line-height: 1;
   text-transform: uppercase;
   font-weight: 500;
   white-space: nowrap;
-  opacity: 0;
-  transform: translateY(0.4rem);
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  /* pull the block back so the trailing letter-spacing doesn't shift it right */
+  margin-right: calc(var(--tracking-wordmark) * -1);
 }
-.wordmark[data-visible] {
-  opacity: 1;
-  transform: none;
+
+.wordmarkSub {
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  line-height: 1;
+  color: var(--gold);
+  margin-right: -0.5em;
 }
 
 .links {
@@ -92,23 +126,15 @@
   gap: clamp(1rem, 3vw, 2.75rem);
 }
 
-.link,
-.wishlist {
+.link {
   font-size: var(--fs-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.wishlist {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
 .menuBtn:focus-visible,
 .link:focus-visible,
-.wishlist:focus-visible,
 .menuLink:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
@@ -119,7 +145,7 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-menu);
-  background: var(--navy);
+  background: var(--dark);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s var(--ease), visibility 0.4s var(--ease);
@@ -144,16 +170,19 @@
   font-weight: 300;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
-  color: var(--white);
+  color: var(--cream);
   transition: opacity 0.2s var(--ease);
 }
 .menuLink:hover {
-  opacity: 0.6;
+  color: var(--gold);
 }
 
 @media (max-width: 640px) {
   .links {
     display: none;
+  }
+  .menuBtn {
+    display: grid;
   }
 }
 

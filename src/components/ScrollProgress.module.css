@@ -6,7 +6,7 @@
   height: 100vh;
   height: 100svh;
   z-index: var(--z-progress);
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(var(--cream-rgb), 0.16);
   pointer-events: none;
 }
 
@@ -18,7 +18,7 @@
   height: 5px;
   border-radius: 50%;
   margin-top: -2.5px;
-  background: var(--white);
+  background: var(--gold);
   will-change: transform;
 }
 

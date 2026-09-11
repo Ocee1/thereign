@@ -8,14 +8,52 @@ import { setNavSolid } from "@/lib/navState";
 import styles from "./HeroSequence.module.css";
 
 /**
- * §5.1 → 5.3 as one continuous scroll sequence over a single pinned background:
- *  - 5.1 white wordmark panel translates out, nav goes solid, wordmark hands off
- *  - 5.1 → 5.2 crossfade swap (tagline → sector marker) over the same shot
- *  - 5.3 scroll-scrubbed pull-back (background scales down) into the caption state
+ * Hero.
  *
- * The sticky child does the pinning; a scrubbed GSAP timeline keyed to this
- * section's scroll progress drives every opacity/transform.
+ * Two beats over one pinned shot, both centred on the same axis:
+ *   1. the statement
+ *   2. the promise at reading scale, plus the three service routes
+ *
+ * The veil over the shot lifts across the whole sequence, so the image keeps
+ * opening up as the type hands off. One asset, one continuous move, no cuts.
+ * The third beat's scroll was not reclaimed when it was cut — it was folded
+ * into these two, so each one holds roughly twice as long as it used to
+ * before handing over.
+ *
+ * (This replaces the spec's §5.1 cream-panel-into-nav hand-off — the wordmark
+ * now simply lives in the nav from the start.)
  */
+const SERVICES = [
+  {
+    label: "Facility Management",
+    icon: (
+      <>
+        <path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16M14 21V9h4a1 1 0 0 1 1 1v11" />
+        <path d="M8 8h2M8 12h2M8 16h2" />
+      </>
+    ),
+  },
+  {
+    label: "Procurement",
+    icon: (
+      <>
+        <path d="M2.5 3.5h2l2.2 10.4a1.6 1.6 0 0 0 1.6 1.3h8.1a1.6 1.6 0 0 0 1.6-1.2l1.5-6H6" />
+        <circle cx="9.5" cy="19.5" r="1.4" />
+        <circle cx="17" cy="19.5" r="1.4" />
+      </>
+    ),
+  },
+  {
+    label: "Project Management",
+    icon: (
+      <>
+        <path d="M2.5 18h19a9.5 9.5 0 0 0-19 0Z" />
+        <path d="M9 8.6V4.8a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3.8M12 3.8V18" />
+      </>
+    ),
+  },
+];
+
 export default function HeroSequence() {
   const root = useRef<HTMLElement>(null);
   const [reduced, setReduced] = useState(false);
@@ -25,8 +63,7 @@ export default function HeroSequence() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // One normalised timeline: every position below is a literal fraction of
-        // this section's scroll (0 = section top, 1 = sticky release).
+        // positions below are literal fractions of this section's scroll
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
@@ -38,23 +75,16 @@ export default function HeroSequence() {
         });
 
         tl
-          // 5.3 — camera pull-back, runs the full length underneath everything
-          .fromTo(`.${styles.scaler}`, { scale: 1.25 }, { scale: 1, duration: 1 }, 0)
-          // 5.1 — white wordmark panel translates up and out
-          .to(
-            `.${styles.panel}`,
-            { yPercent: -115, opacity: 0, duration: 0.18, ease: "power2.in" },
-            0.02,
-          )
-          .to(`.${styles.tagline}`, { opacity: 0, y: -24, duration: 0.15 }, 0.05)
-          // 5.2 — sector marker + copy crossfade in over the same shot, then out
-          .fromTo(`[data-state="b"]`, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.14 }, 0.24)
-          .to(`[data-state="b"]`, { opacity: 0, y: -24, duration: 0.14 }, 0.56)
-          // 5.3 — caption bar + index marker land once the pull-back is nearly done
-          .fromTo(`[data-state="c"]`, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.14 }, 0.74);
+          // the shot pulls back the whole way, and the veil keeps lifting off it
+          .fromTo(`.${styles.scaler}`, { scale: 1.22 }, { scale: 1, duration: 1 }, 0)
+          .fromTo(`.${styles.veil}`, { opacity: 0.72 }, { opacity: 0.2, duration: 0.9 }, 0)
+          .fromTo(`.${styles.arcs}`, { opacity: 0.26 }, { opacity: 0.07, duration: 0.8 }, 0.05)
+          .to(`.${styles.cue}`, { opacity: 0, duration: 0.12 }, 0.24)
+          // 1 — statement holds through the first 40%, then out
+          .to(`.${styles.viewA}`, { autoAlpha: 0, y: -44, duration: 0.16 }, 0.4)
+          // 2 — promise + service routes in, and they hold to the end
+          .fromTo(`.${styles.viewB}`, { autoAlpha: 0, y: 44 }, { autoAlpha: 1, y: 0, duration: 0.16 }, 0.54);
 
-        // Nav goes solid as the white panel clears (~40vh in), so the bar never
-        // sits navy-on-white or ink-on-photo mid-hand-off. Stays solid to page end.
         const navTrigger = ScrollTrigger.create({
           trigger: root.current,
           start: "top top-=40%",
@@ -67,8 +97,6 @@ export default function HeroSequence() {
       });
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        // No pin, no scrub: the section becomes a normal stacked block and the
-        // [data-reduced] CSS makes every state visible in flow (h1 included).
         setReduced(true);
         setNavSolid(true);
       });
@@ -81,63 +109,87 @@ export default function HeroSequence() {
   return (
     <section
       ref={root}
+      id="top"
       className={styles.seq}
-      data-section="5.1-5.3"
       data-reduced={reduced || undefined}
-      aria-label="Intro"
+      aria-label="Introduction"
     >
       <div className={styles.sticky}>
         <div className={styles.bg}>
           <div className={styles.scaler}>
             <Media
               slot="brand/hero.jpg"
-              label="Clad facility exterior seen from the corner against open sky"
+              label="Low-angle view of a white clad industrial facility against open sky"
               tone="dusk"
               priority
             />
           </div>
-          {/* outside .scaler so the wash stays put while the image pulls back */}
           <div className="scrim" aria-hidden="true" />
+          <div className={styles.veil} aria-hidden="true" />
+          <svg
+            className={styles.arcs}
+            viewBox="0 0 1440 900"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+          >
+            <path d="M -80 -60 C 150 250 210 560 40 960" />
+            <path d="M 260 -80 C 470 220 430 520 120 900" />
+            <path d="M 1560 300 C 1400 660 1120 900 700 980" />
+            <path d="M 1600 620 C 1480 800 1300 930 1040 990" />
+          </svg>
         </div>
 
-        {/* 5.1 */}
-        <div className={styles.panel}>
-          <h1 className={styles.wordmark}>
-            In The Reign
-            <span className="sr-only"> — built to support business</span>
+        <div className={`${styles.view} ${styles.viewA}`}>
+          <p className={styles.leadIn}>What our clients get</p>
+
+          <h1 className={styles.headline}>
+            <span className={styles.lineA}>Integrated Solutions.</span>
+            <span className={styles.lineB}>Seamless Operations.</span>
           </h1>
-          <span className={styles.chevron} aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="20" height="20">
-              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-          </span>
-        </div>
-        <p className={styles.tagline}>
-          Built to
-          <br />
-          support business.
-        </p>
 
-        {/* 5.2 */}
-        <div className={styles.marker} data-state="b">
-          <span className={styles.label}>Sectors</span>
-          <span className={styles.frame}>
-            <span className={styles.numeral}>3</span>
-          </span>
+          <p className={styles.support}>
+            Across Oil &amp; Gas, Corporate and Real Estate.
+          </p>
         </div>
-        <p className={styles.copy} data-state="b">
-          Integrated operational and project solutions across Oil &amp; Gas, Corporate and Real
-          Estate.
-        </p>
 
-        {/* 5.3 */}
-        <div className={`overlayBar ${styles.caption}`} data-state="c">
-          Impressive ideas.
-          <br />
-          Daring inspiration.
+        <div className={`${styles.view} ${styles.viewB}`}>
+          <p className={styles.statement}>
+            We keep your people, assets and operations running
+            <span className={styles.mark}> without interruption.</span>
+          </p>
+
+          <p className={styles.subline}>
+            One partner across facility management, procurement and project execution — built for
+            the pace of Oil &amp; Gas, Corporate and Real Estate work.
+          </p>
+
+          <ul className={styles.services}>
+            {SERVICES.map((s) => (
+              <li key={s.label}>
+                <a className={styles.service} href="#services">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.35"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    {s.icon}
+                  </svg>
+                  <span>{s.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
-        <span className={`indexMarker ${styles.index}`} data-state="c">
-          1
+
+        <span className={styles.cue} aria-hidden="true">
+          <em />
+          Scroll
         </span>
       </div>
     </section>

@@ -1,5 +1,5 @@
 .wrap {
-  background: var(--navy);
+  background: var(--dark);
 }
 
 .pin {
@@ -20,7 +20,7 @@
   font-size: var(--fs-pinned);
   line-height: 1.2;
   letter-spacing: var(--tracking-display);
-  color: var(--white);
+  color: var(--cream);
 }
 
 @media (max-width: 640px) {

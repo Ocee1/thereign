@@ -1,0 +1,202 @@
+.footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--dark-deep);
+  color: var(--cream);
+  padding: clamp(3.5rem, 9vh, 6.5rem) var(--gutter) clamp(1.5rem, 4vh, 2.5rem);
+}
+
+/* oversized condensed wordmark bleeding off the bottom edge */
+.watermark {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(-2.5rem, -4vw, -5rem);
+  transform: translateX(-50%);
+  z-index: 0;
+  white-space: nowrap;
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: clamp(6rem, 26vw, 24rem);
+  line-height: 0.78;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(var(--cream-rgb), 0.05);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  padding-bottom: clamp(2.5rem, 6vh, 4rem);
+  border-bottom: 1px solid rgba(var(--cream-rgb), 0.12);
+}
+
+/* ---- brand block ---- */
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 4vh, 2.25rem);
+  max-width: 34rem;
+}
+
+.lockup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.mark {
+  height: clamp(3rem, 7vw, 4rem);
+  width: auto;
+  flex: none;
+}
+.name {
+  display: block;
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.values {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: var(--fs-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.blurb {
+  font-size: clamp(0.9rem, 1.05vw, 1rem);
+  line-height: 1.7;
+  color: rgba(var(--cream-rgb), 0.66);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-style: normal;
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(var(--cream-rgb), 0.72);
+}
+.contact a {
+  width: fit-content;
+  transition: color 0.2s var(--ease);
+}
+.contact a:hover {
+  color: var(--gold);
+}
+
+/* ---- link columns ---- */
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.colTitle {
+  margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  font-size: var(--fs-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(var(--cream-rgb), 0.45);
+}
+
+.col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.col a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: clamp(0.9rem, 1.05vw, 1rem);
+  color: rgba(var(--cream-rgb), 0.78);
+  transition: color 0.2s var(--ease), padding-left 0.2s var(--ease);
+}
+/* a gold marker slides in on hover */
+.col a::before {
+  content: "";
+  position: absolute;
+  left: -0.9rem;
+  width: 0.45rem;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.col a:hover {
+  color: var(--cream);
+  padding-left: 0.9rem;
+}
+.col a:hover::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* ---- baseline ---- */
+
+.baseline {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: clamp(1.5rem, 4vh, 2.25rem);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(var(--cream-rgb), 0.45);
+}
+
+.toTop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(var(--cream-rgb), 0.72);
+  transition: color 0.2s var(--ease);
+}
+.toTop svg {
+  transition: transform 0.2s var(--ease);
+}
+.toTop:hover {
+  color: var(--gold);
+}
+.toTop:hover svg {
+  transform: translateY(-2px);
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 8vh, 3.5rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.5rem;
+  }
+  .baseline {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

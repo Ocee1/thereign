@@ -1,5 +1,6 @@
+/* the page's one light beat — cream ground, ink type */
 .wrap {
-  background: var(--navy);
+  background: var(--cream);
   overflow: visible;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -17,12 +18,12 @@
   line-height: 1.25;
   font-weight: 300;
   letter-spacing: var(--tracking-display);
-  color: var(--white);
+  color: var(--ink);
   margin-bottom: 2rem;
 }
 
 .body {
-  color: var(--muted);
+  color: var(--muted-ink);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   line-height: 1.9;
@@ -37,7 +38,7 @@
 .facet {
   width: min(60%, 22rem);
   height: auto;
-  filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 18px 44px rgba(var(--dark-rgb), 0.18));
 }
 
 @media (max-width: 860px) {

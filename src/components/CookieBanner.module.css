@@ -7,10 +7,10 @@
   align-items: stretch;
   gap: 0.75rem;
   padding: 0.75rem 0.75rem 0.75rem 1.1rem;
-  background: var(--white);
+  background: var(--cream);
   color: var(--ink);
   border-radius: 0.5rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 12px 40px rgba(var(--dark-rgb), 0.35);
   max-width: min(88vw, 26rem);
 }
 
@@ -30,8 +30,8 @@
 .accept {
   align-self: center;
   padding: 0.7rem 1.4rem;
-  background: var(--navy-deep);
-  color: var(--white);
+  background: var(--dark-deep);
+  color: var(--cream);
   font-size: var(--fs-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;

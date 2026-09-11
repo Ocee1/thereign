@@ -1,5 +1,5 @@
 .wrap {
-  background: var(--navy);
+  background: var(--dark);
 }
 
 .bg {
@@ -12,7 +12,7 @@
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: var(--navy-deep);
+  background: var(--dark-deep);
   /* revealed by default (no-JS / pre-hydration); GSAP replays the wipe on scroll */
   transform: translateY(-100%);
   will-change: transform;

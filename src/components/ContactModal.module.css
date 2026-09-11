@@ -1,0 +1,372 @@
+/* "Get in touch" — a two-part composition: a short invitation on the left,
+   the form as the focus on the right. Reuses the site's language: hairlines
+   over boxes, the condensed uppercase display face for the heading, gold as
+   the single action colour, the 45° notch on the send button. */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  overflow-y: auto;
+  background: rgba(var(--dark-rgb), 0.78);
+  backdrop-filter: blur(4px);
+  animation: overlayIn 0.22s var(--ease);
+}
+
+.dialog {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  width: min(58rem, 100%);
+  background: var(--dark-2);
+  border-top: 2px solid var(--gold);
+  box-shadow: 0 40px 120px -24px rgba(0, 0, 0, 0.6);
+  animation: dialogIn 0.3s var(--ease);
+}
+
+/* ---- left: the invitation --------------------------------------------- */
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 4vw, 3.25rem);
+  border-right: 1px solid var(--line);
+}
+
+.asideTop {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.title {
+  margin-top: 0.15rem;
+  /* Archivo carries a large bottom line-gap in its metrics — trim it so the
+     supporting line sits at a deliberate distance, not a floating one. */
+  margin-bottom: -0.16em;
+  font-family: var(--font-condensed);
+  font-weight: 600;
+  font-stretch: 100%;
+  font-size: clamp(2rem, 4.2vw, 2.85rem);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.blurb {
+  max-width: 32ch;
+  color: var(--muted);
+  font-size: var(--fs-body);
+  line-height: 1.7;
+}
+
+.direct {
+  margin-top: clamp(2rem, 6vh, 3.5rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.direct a {
+  color: var(--cream);
+  border-bottom: 1px solid var(--line-strong);
+  transition: border-color 0.2s var(--ease);
+}
+.direct a:hover {
+  border-color: var(--gold);
+}
+
+/* ---- right: the form ------------------------------------------------- */
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(3rem, 4.5vw, 3.75rem) clamp(2rem, 4vw, 3.25rem) clamp(2rem, 4vw, 3.25rem);
+}
+
+.close {
+  position: absolute;
+  z-index: 2;
+  top: 1.1rem;
+  right: 1.1rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--muted);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.close:hover {
+  color: var(--cream);
+  border-color: var(--line-strong);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.label::after {
+  content: "*";
+  margin-left: 0.35em;
+  color: var(--gold);
+}
+
+.control {
+  position: relative;
+}
+/* focus accent: a gold rule that wipes in under the field */
+.control::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease);
+}
+.control:focus-within::after {
+  transform: scaleX(1);
+}
+
+.input {
+  width: 100%;
+  padding: 0.85rem 0.9rem;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--cream);
+  background: rgba(var(--dark-rgb), 0.4);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.input::placeholder {
+  color: rgba(var(--cream-rgb), 0.34);
+}
+.input:hover {
+  border-color: var(--line-strong);
+}
+.input:focus {
+  outline: none;
+  border-color: rgba(var(--gold-rgb), 0.55);
+  background: rgba(var(--dark-rgb), 0.6);
+}
+textarea.input {
+  min-height: 7rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.field[data-error="true"] .input {
+  border-color: rgba(224, 101, 74, 0.6);
+}
+.error {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: #e88b6a;
+}
+
+.botcheck {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.submit {
+  align-self: flex-start;
+  margin-top: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 2.25rem;
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0.8rem 100%, 0 calc(100% - 0.8rem));
+  transition: background 0.2s var(--ease), transform 0.08s var(--ease);
+}
+.submit:hover:not(:disabled) {
+  background: var(--cream);
+}
+.submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.submit:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.spinner {
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid rgba(var(--dark-rgb), 0.35);
+  border-top-color: var(--ink);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ---- success ------------------------------------------------------- */
+
+.done {
+  display: grid;
+  gap: 0.9rem;
+  margin: auto 0;
+  padding: 0.5rem 0;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(var(--gold-rgb), 0.5);
+  border-radius: 50%;
+  color: var(--gold);
+}
+.doneTitle {
+  font-family: var(--font-condensed);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.doneText {
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: var(--fs-body);
+  line-height: 1.7;
+}
+.doneClose {
+  justify-self: start;
+  margin-top: 0.6rem;
+  padding: 0.8rem 1.8rem;
+  border: 1px solid var(--line-strong);
+  color: var(--cream);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  transition: border-color 0.2s var(--ease);
+}
+.doneClose:hover {
+  border-color: var(--gold);
+}
+
+/* ---- responsive --------------------------------------------------- */
+
+@media (max-width: 760px) {
+  .dialog {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  .aside {
+    gap: 0.75rem;
+    padding: clamp(1.75rem, 7vw, 2.25rem) clamp(1.5rem, 6vw, 2rem) clamp(1.25rem, 5vw, 1.5rem);
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .title {
+    font-size: clamp(1.9rem, 8vw, 2.4rem);
+  }
+  .blurb {
+    font-size: 0.9rem;
+  }
+  .direct {
+    display: none;
+  }
+  .panel {
+    padding: clamp(1.75rem, 6vw, 2.25rem) clamp(1.5rem, 6vw, 2rem) clamp(2rem, 7vw, 2.5rem);
+  }
+  .form {
+    gap: 1.15rem;
+  }
+  textarea.input {
+    min-height: 6rem;
+  }
+  .submit {
+    align-self: stretch;
+    justify-content: center;
+    padding: 1.05rem 2rem;
+  }
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .dialog {
+    animation: none;
+  }
+  .control::after,
+  .submit,
+  .input {
+    transition: none;
+  }
+  .spinner {
+    animation-duration: 2s;
+  }
+}
