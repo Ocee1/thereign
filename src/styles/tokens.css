@@ -48,8 +48,7 @@
   --nav-h: 4.5rem;
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
   --z-progress: 40;
-  --z-cookie: 60;
-  --z-menu: 70;   /* full-screen nav overlay sits over the cookie card */
+  --z-menu: 70;   /* full-screen nav overlay */
   --z-nav: 80;    /* ...and the bar (with the close button) over the overlay */
 
   --ease: cubic-bezier(0.4, 0, 0.1, 1);

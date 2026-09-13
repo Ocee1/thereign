@@ -3,7 +3,6 @@ import { Space_Grotesk, Archivo, EB_Garamond } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Nav from "@/components/Nav";
-import CookieBanner from "@/components/CookieBanner";
 import ScrollProgress from "@/components/ScrollProgress";
 import ContactModal from "@/components/ContactModal";
 
@@ -96,7 +95,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Nav />
           <ScrollProgress />
           {children}
-          <CookieBanner />
           <ContactModal />
         </SmoothScroll>
       </body>

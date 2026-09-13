@@ -144,11 +144,6 @@ section[id] {
   text-transform: uppercase;
   line-height: 1.5;
 }
-/* lift the bottom-left caption bars clear of the cookie card while it's up */
-html[data-cookie] .overlayBar {
-  bottom: calc(clamp(2.5rem, 8vh, 6rem) + 5.5rem);
-}
-
 .overlayBar[data-translucent] {
   background: rgba(var(--dark-rgb), 0.72);
   backdrop-filter: blur(2px);
